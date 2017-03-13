@@ -43,7 +43,6 @@ GLuint TexObj; // identifiant du Texture Object
 int CamType = 0;
 // FPS = 0
 // Orbit = 1
-// LookAt = 2
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Camera variables
@@ -120,11 +119,6 @@ bool Initialize()
 		posZ = 0.0f;
 		distance = -60.0f;
 		rotSpeed *= 2;
-		break;
-	case 2:	//LookAt
-		posX = 0.0f;
-		posY = -4.7f;
-		posZ = -60.0f;
 		break;
 	}
 
@@ -328,16 +322,6 @@ void keyboard(unsigned char key, int x, int y)
 		posZ = 0.0f;
 		distance = -60.0f;
 		rotSpeed *= 2;
-	}
-	if (key == '\"')	 // 3 Mode LookAt
-	{
-		CamType = 2;
-		rotX = 0.0f;
-		rotY = 0.0f;
-		posX = 0.0f;
-		posY = -4.7f;
-		posZ = -60.0f;
-		rotSpeed = 0.3f;
 	}
 }
 
