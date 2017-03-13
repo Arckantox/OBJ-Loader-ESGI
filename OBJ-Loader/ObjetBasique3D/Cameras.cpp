@@ -20,13 +20,14 @@
 #include "../stb/stb_image.h"
 
 // format des vertices : X, Y, Z, ?, ?, ?, ?, ? = 8 floats
-#include "../data/DragonData.h"
+//#include "../data/DragonData.h"
 
+/*
 #if _MSC_VER
 uint32_t dragonVertexCount = _countof(DragonVertices);
 uint32_t dragonIndexCount = _countof(DragonIndices);
 #endif
-
+*/
 
 EsgiShader g_BasicShader;
 
@@ -68,9 +69,144 @@ int TimeSinceAppStartedInMS;
 int OldTime = 0;
 float DeltaTime;
 
+//
+
+std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
+std::vector< glm::vec3 > temp_vertices;
+std::vector< glm::vec2 > temp_uvs;
+std::vector< glm::vec3 > temp_normals;
+
+//
+
+bool loadOBJ(
+	const char * path,
+	std::vector < glm::vec3 > & out_vertices,
+	std::vector < glm::vec2 > & out_uvs,
+	std::vector < glm::vec3 > & out_normals
+	//float[] Vertices,
+	//uint16_t[] Indices
+)
+{
+	FILE * file = fopen(path, "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
+	}
+
+	while (1) {
+
+		char lineHeader[128];
+		// read the first word of the line
+		int res = fscanf(file, "%s", lineHeader);
+		if (res == EOF)
+
+			break; // EOF = End Of File. Quit the loop.
+		if (strcmp(lineHeader, "v") == 0) {
+			glm::vec3 vertex;
+			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			temp_vertices.push_back(vertex);
+		}
+		else if (strcmp(lineHeader, "vt") == 0) {
+			glm::vec2 uv;
+			fscanf(file, "%f %f\n", &uv.x, &uv.y);
+			temp_uvs.push_back(uv);
+		}
+		else if (strcmp(lineHeader, "vn") == 0) {
+			glm::vec3 normal;
+			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
+
+		}
+		else if (strcmp(lineHeader, "f") == 0) {
+			std::string vertex1, vertex2, vertex3;
+			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			if (matches != 9) {
+				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+				return false;
+			}
+			vertexIndices.push_back(vertexIndex[0]);
+			vertexIndices.push_back(vertexIndex[1]);
+			vertexIndices.push_back(vertexIndex[2]);
+			uvIndices.push_back(uvIndex[0]);
+			uvIndices.push_back(uvIndex[1]);
+			uvIndices.push_back(uvIndex[2]);
+			normalIndices.push_back(normalIndex[0]);
+			normalIndices.push_back(normalIndex[1]);
+			normalIndices.push_back(normalIndex[2]);
+		}
+	}
+
+	for (unsigned int i = 0; i < vertexIndices.size(); i++) {
+		unsigned int vertexindex = vertexIndices[i];
+
+		glm::vec3 vertex = temp_vertices[vertexindex - 1];
+		//glm::vec3 vertex = temp_vertices[i];
+		out_vertices.push_back(vertex);
+	}
+
+	for (unsigned int i = 0; i < uvIndices.size(); i++) {
+		unsigned int vertexIndex = uvIndices[i];
+
+		glm::vec2 uv = temp_uvs[vertexIndex - 1];
+
+		out_uvs.push_back(uv);
+	}
+
+	for (unsigned int i = 0; i < normalIndices.size(); i++) {
+		unsigned int vertexIndex = normalIndices[i];
+
+		glm::vec3 vertex = temp_normals[vertexIndex - 1];
+
+		out_normals.push_back(vertex);
+	}
+	
+
+}
+
+
+	//float[] vertices;
+	//uint16_t[] indices;
+			// For each vertex of each triangle
+		
+
+			// Read our .obj file
+			
+
+
+		
+
 
 bool Initialize()
 {
+	std::vector< glm::vec3 > vertices;
+	std::vector< glm::vec2 > uvs;
+	std::vector< glm::vec3 > normals; // Won't be used at the moment.
+	bool res = loadOBJ("table.obj", vertices, uvs, normals);
+
+
+	float* vertex1 = new float[vertices.size() * 8];
+	unsigned int* indices1 = new unsigned int[vertexIndices.size()];
+
+	for (int i = 0; i < vertices.size() * 8; i += 8) {
+		vertex1[i] = vertices[i/8].x;
+		vertex1[i+1] = vertices[i/8].y;
+		vertex1[i+2] = vertices[i/8].z;
+		vertex1[i+3] = normals[i / 8].x;
+		vertex1[i+4] = normals[i / 8].y;
+		vertex1[i+5] = normals[i / 8].z;
+		vertex1[i+6] = uvs[i / 8].x;
+		vertex1[i+7] = uvs[i / 8].y;
+		
+		
+	}
+
+	for (int i = 0; i < vertexIndices.size(); i++)
+	{
+		indices1[i] = i;
+	}
+	
+
 	glewInit();
 	g_BasicShader.LoadVertexShader("basic.vs");
 	g_BasicShader.LoadFragmentShader("basic.fs");
@@ -97,12 +233,14 @@ bool Initialize()
 	glGenBuffers(1, &VBO);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, dragonVertexCount * sizeof(float), DragonVertices, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, dragonVertexCount * sizeof(float), DragonVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * 8 * sizeof(float), vertex1, GL_STATIC_DRAW);
 
 	// rendu indexe
 	glGenBuffers(1, &IBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, dragonIndexCount *  sizeof(GLushort), DragonIndices, GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, dragonIndexCount *  sizeof(GLushort), DragonIndices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndices.size() * sizeof(unsigned int), indices1, GL_STATIC_DRAW);
 
 	// le fait de specifier 0 comme BO desactive l'usage des BOs
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -230,7 +368,7 @@ void animate()
 	};
 
 	// 1er cas on à l'adresse du tableau
-	Vertex* v = (Vertex*)DragonVertices;
+	//Vertex* v = (Vertex*)DragonVertices;
 
 	//size_t rel = offsetof(adresse - DragonVertices)
 
@@ -246,7 +384,7 @@ void animate()
 	glEnableVertexAttribArray(texcoords_location);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-	glDrawElements(GL_TRIANGLES, dragonIndexCount, GL_UNSIGNED_SHORT, nullptr);
+	glDrawElements(GL_TRIANGLES, vertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
 	glDisableVertexAttribArray(position_location);
 	glDisableVertexAttribArray(normal_location);

@@ -12,6 +12,7 @@
 
 #include <iostream>
 
+#define M_PI 3.141592654
 namespace Esgi
 {
 	struct Mat4
