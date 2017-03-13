@@ -1,9 +1,10 @@
-
+#include <vector>
 #ifdef _MSC_VER
 #pragma comment(lib, "opengl32.lib")
 #include <windows.h>
 #endif
 
+#include "glm.hpp"
 
 #include "glew.h"
 #ifdef _MSC_VER
@@ -50,7 +51,7 @@ float posX = 0.0f;
 float posY = -4.7f;
 float posZ = -17.0f;
 float moveSpeed = 50.0f;
-float rotSpeed = 0.3f;
+float rotSpeed = 0.05f;
 float rotX = 0.0f;
 float rotY = 0.0f;
 float distance = -60.0f;
@@ -66,6 +67,7 @@ float TimeInSeconds;
 int TimeSinceAppStartedInMS;
 int OldTime = 0;
 float DeltaTime;
+
 
 bool Initialize()
 {

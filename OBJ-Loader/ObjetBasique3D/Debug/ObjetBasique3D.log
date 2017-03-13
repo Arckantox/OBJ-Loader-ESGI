@@ -1,0 +1,19 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (ObjetBasique3D.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Cameras.cpp
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(55): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(65): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(75): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(85): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(86): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(217): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(218): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\data\dragondata.h(4): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\data\dragondata.h(4): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(59): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(60): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(198): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(268): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(272): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.exe
+  ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.pdb (Full PDB)
