@@ -194,6 +194,37 @@ bool loadOBJ(const char * path,std::vector < glm::vec3 > & out_vertices,std::vec
 
 }
 
+bool loadMTL(const char * path, float* Ka, float* Kd, float* Ks, float& shine)
+{
+	FILE * file = fopen(path, "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
+	}
+
+	while (1) {
+		char lineHeader[128];
+		int res = fscanf(file, "%s", lineHeader);
+		if (res == EOF)
+
+			break; // EOF = End Of File. Quit the loop.
+		if (strcmp(lineHeader, "Ka") == 0) {
+			fscanf(file, "%f %f %f\n", &Ka[0], &Ka[1] ,&Ka[2]);
+		}
+		if (strcmp(lineHeader, "Kd") == 0) {
+			fscanf(file, "%f %f %f\n", &Kd[0], &Kd[1], &Kd[2]);
+		}
+		if (strcmp(lineHeader, "Ks") == 0) {
+			fscanf(file, "%f %f %f\n", &Ks[0], &Ks[1], &Ks[2]);
+		}
+		if (strcmp(lineHeader, "Ns") == 0) {
+			fscanf(file, "%f\n", &shine);
+		}
+	}
+}
+
+
+
 //--------------------------------------------------------------GEOMETRY SHADER--------------------------------------------------------
 
 const float step = 1.0f;
@@ -292,7 +323,6 @@ void menu_Selection(int option)
 		if (textu == 1)
 		{
 			textu = 0;
-
 		}
 		else {
 			textu = 1;
@@ -383,6 +413,14 @@ void InitMenu()
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
+//float mAl[3] = { 0.5882,0.5882,0.5882 };
+//float mDl[3] = { 0.5882,0.5882,0.5882 };
+
+float mAl[3];
+float mDl[3];
+float mSl[3] = { 1,1,1 };
+float shininess = 1;
+
 bool Initialize()
 {
 	std::vector< glm::vec3 > vertices;
@@ -390,6 +428,7 @@ bool Initialize()
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
 	bool res = loadOBJ("Captain America Shield 3D Model.obj", vertices, uvs, normals);
 
+	loadMTL("Captain America Shield 3D Model.MTL", mAl, mDl, mSl, shininess);
 
 	float* vertex1 = new float[vertices.size() * 8];
 	unsigned int* indices1 = new unsigned int[vertexIndices.size()];
@@ -576,10 +615,7 @@ void animate()
 	float lightVector[4] = {0, -1,-4,0 };
 	glUniform4fv(lightDir_location, 1, lightVector);
 
-	float mAl[3] = {0.5882,0.5882,0.5882};
-	float mDl[3] = { 0.5882,0.5882,0.5882 };
-	float mSl[3] = {1,1,1};
-	float shininess = 1;
+	
 
 	auto materialAmbiant_location = glGetUniformLocation(program, "u_materialAmbiantColor");
 	glUniform3fv(materialAmbiant_location, 1,  mAl);
