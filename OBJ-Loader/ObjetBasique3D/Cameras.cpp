@@ -50,9 +50,9 @@ int CamType = 0;
 //Camera variables
 float posX = 0.0f;
 
-float posY = -4.7f;
-float posZ = -17.0f;
-float moveSpeed = 10050.0f;
+float posY = -0.5f;
+float posZ = -10.0f;
+float moveSpeed = 250.0f;
 float rotSpeed = 0.08f;
 float rotX = 0.0f;
 float rotY = 0.0f;
@@ -175,13 +175,6 @@ const float step = 1.0f;
 const int nbLines = 100;
 float gridPoints[nbLines*2*6];
 
-float points[] = {
-	-0.45f,  0.45f,
-	0.45f,  0.45f,
-	0.45f, -0.45f,
-	-0.45f, -0.45f	
-};
-	
 GLuint vbo, vao;
 GLuint shaderProgram, gridVertexShader, gridFragmentShader, geometryShader;
 
@@ -227,7 +220,7 @@ void MakeGeometryShader()
 	}
 	
 	gridVertexShader = CreateShader(GL_VERTEX_SHADER, "grid.vs");
-	geometryShader = CreateShader(GL_GEOMETRY_SHADER, "geometry.gs");
+	//geometryShader = CreateShader(GL_GEOMETRY_SHADER, "geometry.gs");
 	gridFragmentShader = CreateShader(GL_FRAGMENT_SHADER, "grid.fs");
 
 	shaderProgram = glCreateProgram();
@@ -250,8 +243,6 @@ void DisplayGrid()
 	glEnableVertexAttribArray(posAttrib);
 	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glDrawArrays(GL_LINES, 0,(nbLines * 2 * 6));
-
-	//glDrawArrays(GL_POINTS, 0, 4);
 
 	glUseProgram(0);
 }
