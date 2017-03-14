@@ -49,13 +49,13 @@ int CamType = 0;
 
 //Camera variables
 float posX = 0.0f;
-float posY = -4.7f;
-float posZ = -17.0f;
+float posY = -0.5f;
+float posZ = -10.0f;
 float moveSpeed = 50.0f;
 float rotSpeed = 0.08f;
 float rotX = 0.0f;
 float rotY = 0.0f;
-float distance = -60.0f;
+float distance = -10.0f;
 
 int lastposX = height * 0.5f;
 int lastposY = width * 0.5f;
@@ -69,7 +69,7 @@ int TimeSinceAppStartedInMS;
 int OldTime = 0;
 float DeltaTime;
 
-//
+//end Camera Variables
 
 std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 std::vector< glm::vec3 > temp_vertices;
@@ -254,15 +254,13 @@ bool Initialize()
 	{
 	case 0:	//FPS
 		 posX = 0.0f;
-		 posY = -4.7f;
-		 posZ = -17.0f;
+		 posY = -0.5f;
+		 posZ = -10.0f;
 		break;
 	case 1:	//Orbit
 		posX = 0.0f;
-		posY = -4.7f;
+		posY = -0.5f;
 		posZ = 0.0f;
-		distance = -60.0f;
-		rotSpeed *= 2;
 		break;
 	}
 
@@ -323,9 +321,6 @@ void animate()
 		break;
 	case 1:	//Orbit
 		cameraMatrix = OrbitCamera(posX, posY, posZ, distance, rotX, rotY);
-		break;
-	case 2:	//LookAt
-		cameraMatrix = LookAtCamera(posX, posY, posZ, 0.0f, -4.7f, 0.0f);
 		break;
 	}
 	
@@ -443,27 +438,26 @@ void keyboard(unsigned char key, int x, int y)
 		posZ -= moveSpeed *  DeltaTime * COS(rotY - 90);
 		posX -= moveSpeed *  DeltaTime * -SIN(rotY - 90);
 	}
-	/*if (key == 32)	// Space Bar
+	if (key == 27)	// Echap
+	{
+		exit(0);
+	}
+	if (key == 32)	// Space Bar
 	{
 		posY -= moveSpeed *  DeltaTime;
 	}
 	if (key == 'f')
 	{
 		posY += moveSpeed *  DeltaTime;
-	}*/
-	if (key == 27)	// Echap
-	{
-		exit(0);
 	}
-
 	if (key == '&')	 // 1 Mode FPS
 	{
 		CamType = 0;
 		rotX = 0.0f;
 		rotY = 0.0f;
 		posX = 0.0f;
-		posY = -4.7f;
-		posZ = -17.0f;
+		posY = -0.5f;
+		posZ = -10.0f;
 		rotSpeed = 0.3f;
 	}
 	if (key == 233)	 // 2 Mode Orbit
@@ -472,10 +466,9 @@ void keyboard(unsigned char key, int x, int y)
 		rotX = 0.0f;
 		rotY = 0.0f;
 		posX = 0.0f;
-		posY = -4.7f;
+		posY = -0.5f;
 		posZ = 0.0f;
-		distance = -60.0f;
-		rotSpeed *= 2;
+		distance = -10.0f;
 	}
 }
 
