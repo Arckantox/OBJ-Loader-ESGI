@@ -1,4 +1,7 @@
 #include <vector>
+#include <cstdio>
+#include <iostream>
+#include <string>
 #ifdef _MSC_VER
 #pragma comment(lib, "opengl32.lib")
 #include <windows.h>
@@ -31,6 +34,8 @@ uint32_t dragonIndexCount = _countof(DragonIndices);
 
 EsgiShader g_BasicShader;
 
+std::string objName;
+
 // alternativement unsigned short, GLushort, uint16_t
 static const GLushort g_Indices[] = { 0, 1, 2, 3 };
 
@@ -58,7 +63,7 @@ float posX = 0.0f;
 
 float posY = -0.5f;
 float posZ = -10.0f;
-float moveSpeed = 1000.0f;
+float moveSpeed = 200.0f;
 float rotSpeed = 0.08f;
 
 float rotX = 0.0f;
@@ -426,9 +431,12 @@ bool Initialize()
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
-	bool res = loadOBJ("Captain America Shield 3D Model.obj", vertices, uvs, normals);
 
-	loadMTL("Captain America Shield 3D Model.MTL", mAl, mDl, mSl, shininess);
+	std::string obj = objName + ".obj";
+	bool res = loadOBJ(obj.c_str(), vertices, uvs, normals);
+
+	std::string mtl = objName + ".mtl";
+	loadMTL(mtl.c_str(), mAl, mDl, mSl, shininess);
 
 	float* vertex1 = new float[vertices.size() * 8];
 	unsigned int* indices1 = new unsigned int[vertexIndices.size()];
@@ -464,7 +472,8 @@ bool Initialize()
 	glGenTextures(1, &TexObj);
 	glBindTexture(GL_TEXTURE_2D, TexObj);
 	int w, h, c; //largeur, hauteur et # de composantes du fichier
-	uint8_t* bitmapRGBA = stbi_load("Captain_America_Shield_3D_Model_MAP.png",
+	std::string tex = objName + ".png";
+	uint8_t* bitmapRGBA = stbi_load(tex.c_str(),
 		&w, &h, &c, STBI_rgb_alpha);
 
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -784,6 +793,9 @@ void mouse(int x, int y)
 
 int main(int argc, const char* argv[])
 {
+	std::cout << "Veuillez entrer le nom du fichier obj (sans .obj)" << std::endl;
+	std::cin >> objName;
+
 	// passe les parametres de la ligne de commande a glut
 	glutInit(&argc, (char**)argv);
 	// defini deux color buffers (un visible, un cache) RGBA
