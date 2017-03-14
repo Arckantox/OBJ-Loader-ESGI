@@ -72,6 +72,33 @@ float DeltaTime;
 
 //end Camera Variables
 
+void ChangeCam(int type)
+{
+	switch (type)
+	{
+	case 0:
+		CamType = 0;
+		rotX = 0.0f;
+		rotY = 0.0f;
+		posX = 0.0f;
+		posY = -0.5f;
+		posZ = -10.0f;
+		rotSpeed = 0.3f;
+		break;
+	case 1:
+		CamType = 1;
+		rotX = 0.0f;
+		rotY = 0.0f;
+		posX = 0.0f;
+		posY = -0.5f;
+		posZ = 0.0f;
+		distance = -10.0f;
+		break;
+	}
+
+}
+
+
 std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 std::vector< glm::vec3 > temp_vertices;
 std::vector< glm::vec2 > temp_uvs;
@@ -329,19 +356,7 @@ bool Initialize()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	switch (CamType)
-	{
-	case 0:	//FPS
-		 posX = 0.0f;
-		 posY = -14.7f;
-		 posZ = -217.0f;
-		break;
-	case 1:	//Orbit
-		posX = 0.0f;
-		posY = -0.5f;
-		posZ = 0.0f;
-		break;
-	}
+	ChangeCam(CamType);
 
 	MakeGeometryShader();
 
@@ -547,23 +562,11 @@ void keyboard(unsigned char key, int x, int y)
 	}
 	if (key == '&')	 // 1 Mode FPS
 	{
-		CamType = 0;
-		rotX = 0.0f;
-		rotY = 0.0f;
-		posX = 0.0f;
-		posY = -0.5f;
-		posZ = -10.0f;
-		rotSpeed = 0.3f;
+		ChangeCam(0);
 	}
 	if (key == 233)	 // 2 Mode Orbit
 	{
-		CamType = 1;
-		rotX = 0.0f;
-		rotY = 0.0f;
-		posX = 0.0f;
-		posY = -0.5f;
-		posZ = 0.0f;
-		distance = -10.0f;
+		ChangeCam(1);
 	}
 }
 
@@ -578,6 +581,100 @@ void mouse(int x, int y)
 	lastposY = y;
 }
 
+void InitMenu()
+{
+	// Création du menu
+	int menu = glutCreateMenu(menu_Selection);
+
+	// Index des sous-menus
+	GLint cameraMenu, renderMenu, lightMenu;
+
+	cameraMenu = glutCreateMenu(camera_Menu);
+	glutAddMenuEntry("Free Camera", 1);
+	glutAddMenuEntry("Orbital Camera", 2);
+
+	renderMenu = glutCreateMenu(render_Menu);
+	glutAddMenuEntry("Polygon", 1);
+	glutAddMenuEntry("Wireframe", 2);
+
+	lightMenu = glutCreateMenu(light_Menu);
+	glutAddMenuEntry("Lambert", 1);
+	glutAddMenuEntry("Phong", 2);
+	glutAddMenuEntry("Blinn-Phong", 3);
+
+	glutCreateMenu(menu_Selection);
+	glutAddSubMenu("Camera", cameraMenu);
+	glutAddMenuEntry("Grid ON/OFF", 1);
+	glutAddSubMenu("Render", renderMenu);
+	glutAddMenuEntry("Backface ON/OFF", 2);
+	glutAddMenuEntry("Texture ON/OFF", 3);
+	glutAddMenuEntry("Light ON/OFF", 4);
+	glutAddSubMenu("Light Mode", lightMenu);
+	glutAddMenuEntry("Quit", 5);
+
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
+void menu_Selection(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Grid ON/OFF
+		break;
+	case 2:
+		//Backface ON/OFF
+		break;
+	case 3:
+		//Texture ON/OFF
+		break;
+	case 4:
+		//Light ON/OFF
+		break;
+	case 5:
+		exit(0);
+		break;
+	}
+}
+void camera_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		ChangeCam(0);	//Free
+		break;
+	case 2:
+		ChangeCam(1);	//Orbit
+		break;
+	}
+}
+void render_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Polygon
+		break;
+	case 2:
+		//Wireframe
+		break;
+	}
+}
+void light_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Lambert
+		break;
+	case 2:
+		//Phong
+		break;
+	case 3:
+		//Blinn-Phong
+		break;
+	}
+}
 int main(int argc, const char* argv[])
 {
 	// passe les parametres de la ligne de commande a glut
