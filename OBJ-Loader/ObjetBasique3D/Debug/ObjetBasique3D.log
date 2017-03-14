@@ -14,9 +14,9 @@ c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\ob
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(191): warning C4018: '<': signed/unsigned mismatch
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(204): warning C4018: '<': signed/unsigned mismatch
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(332): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(402): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(406): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(165): warning C4715: 'loadOBJ': not all control paths return a value
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(337): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(413): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(417): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(161): warning C4715: 'loadOBJ': not all control paths return a value
   ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.exe
   ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.pdb (Full PDB)

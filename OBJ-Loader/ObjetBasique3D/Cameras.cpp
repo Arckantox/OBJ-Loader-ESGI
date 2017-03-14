@@ -78,11 +78,7 @@ std::vector< glm::vec3 > temp_normals;
 
 //
 
-bool loadOBJ(
-	const char * path,
-	std::vector < glm::vec3 > & out_vertices,
-	std::vector < glm::vec2 > & out_uvs,
-	std::vector < glm::vec3 > & out_normals
+bool loadOBJ(const char * path,std::vector < glm::vec3 > & out_vertices,std::vector < glm::vec2 > & out_uvs,std::vector < glm::vec3 > & out_normals
 	//float[] Vertices,
 	//uint16_t[] Indices
 )
@@ -179,6 +175,10 @@ bool loadOBJ(
 
 bool Initialize()
 {
+	//BackFace Culling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
+
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
@@ -208,8 +208,12 @@ bool Initialize()
 	
 
 	glewInit();
+	//g_BasicShader.LoadVertexShader("basicLight.vs");
+	//g_BasicShader.LoadFragmentShader("basicLight.fs");
+
 	g_BasicShader.LoadVertexShader("basic.vs");
 	g_BasicShader.LoadFragmentShader("basic.fs");
+
 	g_BasicShader.CreateProgram();
 
 	glGenTextures(1, &TexObj);
@@ -282,6 +286,9 @@ void update()
 
 void animate()
 {
+	
+	//Rendu filaire
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// afin d'obtenir le deltatime actuel
 	TimeSinceAppStartedInMS = glutGet(GLUT_ELAPSED_TIME);
 	TimeInSeconds = TimeSinceAppStartedInMS / 1000.0f;
@@ -323,8 +330,6 @@ void animate()
 	}
 	
 
-	//
-
 	auto world_location = glGetUniformLocation(program, "u_WorldMatrix");
 	glUniformMatrix4fv(world_location, 1, GL_FALSE, worldMatrix.m);
 
@@ -347,6 +352,12 @@ void animate()
 
 	auto time_location = glGetUniformLocation(program, "u_Time");
 	glUniform1f(time_location, TimeInSeconds);
+
+	auto lightDir_location = glGetUniformLocation(program
+		, "u_PositionOrDirection");
+	float lightVector[4] = { 0.0, 1.0, 0.0, 0.0 };
+	glUniform4fv(lightDir_location, 1, lightVector);
+
 
 	// ATTRIBUTES
 	auto normal_location = glGetAttribLocation(program, "a_Normal");
