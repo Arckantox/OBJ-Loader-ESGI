@@ -52,7 +52,7 @@ float posX = 0.0f;
 float posY = -4.7f;
 float posZ = -17.0f;
 float moveSpeed = 50.0f;
-float rotSpeed = 0.05f;
+float rotSpeed = 0.08f;
 float rotX = 0.0f;
 float rotY = 0.0f;
 float distance = -60.0f;
@@ -413,30 +413,33 @@ void keyboard(unsigned char key, int x, int y)
 	{
 		posZ += moveSpeed *  DeltaTime * COS(rotY);
 		posX += moveSpeed *  DeltaTime * -SIN(rotY);
+		posY += moveSpeed *  DeltaTime * SIN(rotX);
 	}
 	if (key == 'q')
 	{
 		posZ += moveSpeed *  DeltaTime * COS(rotY - 90);
 		posX += moveSpeed *  DeltaTime * -SIN(rotY - 90);
+		
 	}
 	if (key == 's')
 	{
 		posZ -= moveSpeed *  DeltaTime * COS(rotY);
 		posX -= moveSpeed *  DeltaTime * -SIN(rotY);
+		posY -= moveSpeed *  DeltaTime * SIN(rotX);
 	}
 	if (key == 'd')
 	{
 		posZ -= moveSpeed *  DeltaTime * COS(rotY - 90);
 		posX -= moveSpeed *  DeltaTime * -SIN(rotY - 90);
 	}
-	if (key == 32)	// Space Bar
+	/*if (key == 32)	// Space Bar
 	{
 		posY -= moveSpeed *  DeltaTime;
 	}
 	if (key == 'f')
 	{
 		posY += moveSpeed *  DeltaTime;
-	}
+	}*/
 	if (key == 27)	// Echap
 	{
 		exit(0);
