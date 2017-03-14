@@ -35,6 +35,7 @@ EsgiShader g_BasicShader;
 static const GLushort g_Indices[] = { 0, 1, 2, 3 };
 
 int light = 2;
+int textu = 1;
 
 int width = 1000;
 int height = 1000;
@@ -110,7 +111,6 @@ std::vector< glm::vec3 > temp_vertices;
 std::vector< glm::vec2 > temp_uvs;
 std::vector< glm::vec3 > temp_normals;
 
-//
 
 bool loadOBJ(const char * path,std::vector < glm::vec3 > & out_vertices,std::vector < glm::vec2 > & out_uvs,std::vector < glm::vec3 > & out_normals
 	//float[] Vertices,
@@ -289,7 +289,14 @@ void menu_Selection(int option)
 		backfaceMode = !backfaceMode;
 		break;
 	case 3:
-		//Texture ON/OFF
+		if (textu == 1)
+		{
+			textu = 0;
+
+		}
+		else {
+			textu = 1;
+		}
 		break;
 	case 4:
 		light = 0;
@@ -536,6 +543,9 @@ void animate()
 		break;
 	}
 	
+	auto textuMode = glGetUniformLocation(program, "u_textuMode");
+	glUniform1i(textuMode, textu);
+
 	auto lightMode = glGetUniformLocation(program, "u_lightMode");
 	glUniform1i(lightMode, light);
 	auto world_location = glGetUniformLocation(program, "u_WorldMatrix");

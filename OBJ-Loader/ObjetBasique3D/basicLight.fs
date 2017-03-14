@@ -17,6 +17,7 @@ uniform vec3 u_materialDiffuseColor;
 uniform vec3 u_materialSpecularColor;
 uniform float u_Shininess;
 
+uniform int u_textuMode;
 
 void main(void)
 {
@@ -47,11 +48,20 @@ void main(void)
 	float diffuseFactor = max(dot(N, L), 0.0);
 	vec3 diffuseColor = lightDiffuseColor * vec3(u_materialDiffuseColor);
 	vec4 diffuse = vec4(diffuseFactor * diffuseColor, 1.0);
+	vec4 texturee = vec4(1.0f); 
+	if(u_textuMode == 0)
+	{
+		texturee = vec4(1.0f); 
+	}
+	else{
+	texturee=texture2D(u_Texture, uv);
+	}
 	
 	if(u_lightMode==1){
 	
 	
-		gl_FragColor = diffuse * texture2D(u_Texture, uv);
+		gl_FragColor = diffuse *texturee ;
+		
 	}
 	else{
 		vec4 specular;
@@ -69,13 +79,13 @@ void main(void)
 		 specular = vec4(pow(max(dot(N,H),0.0),u_Shininess)*specularColor,1.0) ;
 		}
 		
-		gl_FragColor = vec4(ambiantColor, 1.0) * texture2D(u_Texture, uv)
-						 + diffuse * texture2D(u_Texture, uv) + specular;
+		gl_FragColor = vec4(ambiantColor, 1.0) * texturee
+						 + diffuse * texturee + specular;
 						 
 						 
 		if(u_lightMode==0)
 		{
-		gl_FragColor = vec4(ambiantColor,1.0)* texture2D(u_Texture, uv);
+		gl_FragColor = vec4(ambiantColor,1.0)* texturee;
 		}
 		gl_FragColor.a = 0.5;
 	}

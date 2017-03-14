@@ -10,17 +10,17 @@ c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\ob
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(219): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(1001): warning C4005: 'M_PI': macro redefinition
   c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\common\mat4.h(15): note: see previous definition of 'M_PI'
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(67): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(390): warning C4018: '<': signed/unsigned mismatch
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(403): warning C4018: '<': signed/unsigned mismatch
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(545): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(569): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(569): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(570): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(570): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(654): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(658): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(69): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(397): warning C4018: '<': signed/unsigned mismatch
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(410): warning C4018: '<': signed/unsigned mismatch
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(555): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(579): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(579): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(580): warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(580): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(664): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(668): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 c:\users\michael\documents\visual studio 2015\projects\opengl\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(195): warning C4715: 'loadOBJ': not all control paths return a value
   ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.exe
   ObjetBasique3D.vcxproj -> C:\Users\Michael\Documents\Visual Studio 2015\Projects\OpenGL\Debug\Cameras.pdb (Full PDB)
