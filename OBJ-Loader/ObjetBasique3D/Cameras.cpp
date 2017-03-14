@@ -274,7 +274,101 @@ void DisplayGrid()
 	glUseProgram(0);
 }
 
-//-------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------
+void menu_Selection(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Grid ON/OFF
+		break;
+	case 2:
+		//Backface ON/OFF
+		break;
+	case 3:
+		//Texture ON/OFF
+		break;
+	case 4:
+		//Light ON/OFF
+		break;
+	case 5:
+		exit(0);
+		break;
+	}
+}
+void camera_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		ChangeCam(0);	//Free
+		break;
+	case 2:
+		ChangeCam(1);	//Orbit
+		break;
+	}
+}
+void render_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Polygon
+		break;
+	case 2:
+		//Wireframe
+		break;
+	}
+}
+void light_Menu(int option)
+{
+	switch (option)
+	{
+	case 1:
+		//Lambert
+		break;
+	case 2:
+		//Phong
+		break;
+	case 3:
+		//Blinn-Phong
+		break;
+	}
+}
+
+void InitMenu()
+{
+	// Création du menu
+	int menu = glutCreateMenu(menu_Selection);
+
+	// Index des sous-menus
+	GLint cameraMenu, renderMenu, lightMenu;
+
+	cameraMenu = glutCreateMenu(camera_Menu);
+	glutAddMenuEntry("Free Camera", 1);
+	glutAddMenuEntry("Orbital Camera", 2);
+
+	renderMenu = glutCreateMenu(render_Menu);
+	glutAddMenuEntry("Polygon", 1);
+	glutAddMenuEntry("Wireframe", 2);
+
+	lightMenu = glutCreateMenu(light_Menu);
+	glutAddMenuEntry("Lambert", 1);
+	glutAddMenuEntry("Phong", 2);
+	glutAddMenuEntry("Blinn-Phong", 3);
+
+	glutCreateMenu(menu_Selection);
+	glutAddSubMenu("Camera", cameraMenu);
+	glutAddMenuEntry("Grid ON/OFF", 1);
+	glutAddSubMenu("Render", renderMenu);
+	glutAddMenuEntry("Backface ON/OFF", 2);
+	glutAddMenuEntry("Texture ON/OFF", 3);
+	glutAddMenuEntry("Light ON/OFF", 4);
+	glutAddSubMenu("Light Mode", lightMenu);
+	glutAddMenuEntry("Quit", 5);
+
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
 
 bool Initialize()
 {
@@ -359,6 +453,8 @@ bool Initialize()
 	ChangeCam(CamType);
 
 	MakeGeometryShader();
+
+	InitMenu();
 
 	return true;
 
@@ -527,9 +623,16 @@ void keyboard(unsigned char key, int x, int y)
 {
 	if (key == 'z')
 	{
-		posZ += moveSpeed *  DeltaTime * COS(rotY);
-		posX += moveSpeed *  DeltaTime * -SIN(rotY);
-		posY += moveSpeed *  DeltaTime * SIN(rotX);
+		if (CamType == 0)
+		{
+			posZ += moveSpeed *  DeltaTime * COS(rotY);
+			posX += moveSpeed *  DeltaTime * -SIN(rotY);
+			posY += moveSpeed *  DeltaTime * SIN(rotX);
+		}
+		else
+		{
+			distance += moveSpeed *  DeltaTime;
+		}
 	}
 	if (key == 'q')
 	{
@@ -539,9 +642,16 @@ void keyboard(unsigned char key, int x, int y)
 	}
 	if (key == 's')
 	{
-		posZ -= moveSpeed *  DeltaTime * COS(rotY);
-		posX -= moveSpeed *  DeltaTime * -SIN(rotY);
-		posY -= moveSpeed *  DeltaTime * SIN(rotX);
+		if (CamType == 0)
+		{
+			posZ -= moveSpeed *  DeltaTime * COS(rotY);
+			posX -= moveSpeed *  DeltaTime * -SIN(rotY);
+			posY -= moveSpeed *  DeltaTime * SIN(rotX);
+		}
+		else
+		{
+			distance -= moveSpeed *  DeltaTime;
+		}
 	}
 	if (key == 'd')
 	{
@@ -581,100 +691,7 @@ void mouse(int x, int y)
 	lastposY = y;
 }
 
-void InitMenu()
-{
-	// Création du menu
-	int menu = glutCreateMenu(menu_Selection);
 
-	// Index des sous-menus
-	GLint cameraMenu, renderMenu, lightMenu;
-
-	cameraMenu = glutCreateMenu(camera_Menu);
-	glutAddMenuEntry("Free Camera", 1);
-	glutAddMenuEntry("Orbital Camera", 2);
-
-	renderMenu = glutCreateMenu(render_Menu);
-	glutAddMenuEntry("Polygon", 1);
-	glutAddMenuEntry("Wireframe", 2);
-
-	lightMenu = glutCreateMenu(light_Menu);
-	glutAddMenuEntry("Lambert", 1);
-	glutAddMenuEntry("Phong", 2);
-	glutAddMenuEntry("Blinn-Phong", 3);
-
-	glutCreateMenu(menu_Selection);
-	glutAddSubMenu("Camera", cameraMenu);
-	glutAddMenuEntry("Grid ON/OFF", 1);
-	glutAddSubMenu("Render", renderMenu);
-	glutAddMenuEntry("Backface ON/OFF", 2);
-	glutAddMenuEntry("Texture ON/OFF", 3);
-	glutAddMenuEntry("Light ON/OFF", 4);
-	glutAddSubMenu("Light Mode", lightMenu);
-	glutAddMenuEntry("Quit", 5);
-
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
-}
-
-void menu_Selection(int option)
-{
-	switch (option)
-	{
-	case 1:
-		//Grid ON/OFF
-		break;
-	case 2:
-		//Backface ON/OFF
-		break;
-	case 3:
-		//Texture ON/OFF
-		break;
-	case 4:
-		//Light ON/OFF
-		break;
-	case 5:
-		exit(0);
-		break;
-	}
-}
-void camera_Menu(int option)
-{
-	switch (option)
-	{
-	case 1:
-		ChangeCam(0);	//Free
-		break;
-	case 2:
-		ChangeCam(1);	//Orbit
-		break;
-	}
-}
-void render_Menu(int option)
-{
-	switch (option)
-	{
-	case 1:
-		//Polygon
-		break;
-	case 2:
-		//Wireframe
-		break;
-	}
-}
-void light_Menu(int option)
-{
-	switch (option)
-	{
-	case 1:
-		//Lambert
-		break;
-	case 2:
-		//Phong
-		break;
-	case 3:
-		//Blinn-Phong
-		break;
-	}
-}
 int main(int argc, const char* argv[])
 {
 	// passe les parametres de la ligne de commande a glut
