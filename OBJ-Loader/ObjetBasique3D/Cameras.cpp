@@ -167,14 +167,101 @@ bool loadOBJ(const char * path,std::vector < glm::vec3 > & out_vertices,std::vec
 		
 
 			// Read our .obj file
-			
+	
+//--------------------------------------------------------------GEOMETRY SHADER--------------------------------------------------------
+
+const float step = 1.0f;
+const int nbLines = 100;
+float gridPoints[nbLines*2*6];
+
+float points[] = {
+	-0.45f,  0.45f,
+	0.45f,  0.45f,
+	0.45f, -0.45f,
+	-0.45f, -0.45f	
+};
+	
+GLuint vbo, vao;
+GLuint shaderProgram, gridVertexShader, gridFragmentShader, geometryShader;
+
+GLuint CreateShader(uint32_t type, const char* filename)
+{
+	GLuint shader = glCreateShader(type);
+	FILE* file = fopen(filename, "rb");
+	fseek(file, 0, SEEK_END);
+	auto len = ftell(file);			// auto permet de détecter automatiquement le type de retour de la fonction à laquelle la variable est affecté
+	rewind(file);
+	auto buffer = new char[len + 1];
+	fread(buffer, len, 1, file);
+	buffer[len] = '\0';			// = 0 fonctionne aussi
+	glShaderSource(shader, 1, &buffer, nullptr);
+	glCompileShader(shader);
+	delete[] buffer;
+
+	return shader;
+}
+
+void MakeGeometryShader()
+{
+	glGenBuffers(1, &vbo);
+	glGenVertexArrays(1, &vao);
+	
+	for (int i = 0; i < nbLines; i++)
+	{
+		gridPoints[i * 6] = -step*0.5f*nbLines+i*step;
+		gridPoints[i * 6 + 1] = 0;
+		gridPoints[i * 6 + 2] = step*0.5*nbLines;
+		gridPoints[i * 6 + 3] = -step*0.5f*nbLines + i*step;
+		gridPoints[i * 6 + 4] = 0;
+		gridPoints[i * 6 + 5] = -step*0.5*nbLines;
+	}
+	for (int i = nbLines; i < nbLines*2; i++)
+	{
+		gridPoints[i * 6] = step*0.5*nbLines;
+		gridPoints[i * 6 + 1] = 0;
+		gridPoints[i * 6 + 2] = -step*0.5f*nbLines + (i - nbLines)*step;
+		gridPoints[i * 6 + 3] = -step*0.5*nbLines;
+		gridPoints[i * 6 + 4] = 0;
+		gridPoints[i * 6 + 5] = -step*0.5f*nbLines + (i - nbLines)*step;
+	}
+	
+	gridVertexShader = CreateShader(GL_VERTEX_SHADER, "grid.vs");
+	geometryShader = CreateShader(GL_GEOMETRY_SHADER, "geometry.gs");
+	gridFragmentShader = CreateShader(GL_FRAGMENT_SHADER, "grid.fs");
+
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, gridVertexShader);
+	//glAttachShader(shaderProgram, geometryShader);
+	glAttachShader(shaderProgram, gridFragmentShader);
+	glLinkProgram(shaderProgram);
+}
 
 
-		
+void DisplayGrid()
+{
+	glUseProgram(shaderProgram);
 
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(gridPoints), gridPoints, GL_STATIC_DRAW);
+
+	glBindVertexArray(vao);
+	GLint posAttrib = glGetAttribLocation(shaderProgram, "pos");
+	glEnableVertexAttribArray(posAttrib);
+	glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glDrawArrays(GL_LINES, 0,(nbLines * 2 * 6));
+
+	//glDrawArrays(GL_POINTS, 0, 4);
+
+	glUseProgram(0);
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------
 
 bool Initialize()
 {
+
+	glEnable(GL_PROGRAM_POINT_SIZE);
+
 	//BackFace Culling
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
@@ -264,8 +351,10 @@ bool Initialize()
 		break;
 	}
 
+	MakeGeometryShader();
 
 	return true;
+
 }
 
 void Terminate()
@@ -286,7 +375,7 @@ void animate()
 {
 	
 	//Rendu filaire
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// afin d'obtenir le deltatime actuel
 	TimeSinceAppStartedInMS = glutGet(GLUT_ELAPSED_TIME);
 	TimeInSeconds = TimeSinceAppStartedInMS / 1000.0f;
@@ -358,6 +447,18 @@ void animate()
 	auto normal_location = glGetAttribLocation(program, "a_Normal");
 	auto position_location = glGetAttribLocation(program, "a_Position");
 	auto texcoords_location = glGetAttribLocation(program, "a_TexCoords");
+
+	glUseProgram(shaderProgram);		// GEOMETRY SHADER SPACE LOCATION REQUIERED VARIABLES
+
+	auto world_locationG = glGetUniformLocation(shaderProgram, "u_WorldMatrix");
+	glUniformMatrix4fv(world_locationG, 1, GL_FALSE, worldMatrix.m);
+	auto projection_locationG = glGetUniformLocation(shaderProgram, "u_ProjectionMatrix");
+	glUniformMatrix4fv(projection_locationG, 1, GL_FALSE, projectionMatrix.m);
+	auto camera_locationG = glGetUniformLocation(shaderProgram, "u_CameraMatrix");
+	glUniformMatrix4fv(camera_locationG, 1, GL_FALSE, cameraMatrix.m);
+
+	glUseProgram(program);
+
 	//glVertexAttrib3f(color_location, 0.0f, 1.0f, 0.0f);
 
 	// Le fait de specifier la ligne suivante va modifier le fonctionnement interne de glVertexAttribPointer
@@ -399,6 +500,8 @@ void animate()
 
 	//Repositionnement du curseur 
 	//glutWarpPointer(width*0.5f, height*0.5f);
+
+	DisplayGrid();
 
 	glutSwapBuffers();
 }

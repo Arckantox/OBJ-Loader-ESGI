@@ -43,5 +43,14 @@
     <None Include="basic.vs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="grid.fs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="grid.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="geometry.gs">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
