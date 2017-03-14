@@ -274,13 +274,17 @@ void DisplayGrid()
 	glUseProgram(0);
 }
 
-//------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------MENU----------------------------------------------------------------------
+
+bool showGrid = true;
+
 void menu_Selection(int option)
 {
 	switch (option)
 	{
 	case 1:
 		//Grid ON/OFF
+		showGrid = !showGrid;
 		break;
 	case 2:
 		//Backface ON/OFF
@@ -604,7 +608,10 @@ void animate()
 	//Repositionnement du curseur 
 	//glutWarpPointer(width*0.5f, height*0.5f);
 
-	DisplayGrid();
+	if (showGrid)
+	{
+		DisplayGrid();
+	}
 
 	glutSwapBuffers();
 }
@@ -677,6 +684,10 @@ void keyboard(unsigned char key, int x, int y)
 	if (key == 233)	 // 2 Mode Orbit
 	{
 		ChangeCam(1);
+	}
+	if (key == 'g')
+	{
+		showGrid = !showGrid;
 	}
 }
 
