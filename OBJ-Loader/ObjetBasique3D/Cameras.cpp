@@ -34,6 +34,8 @@ EsgiShader g_BasicShader;
 // alternativement unsigned short, GLushort, uint16_t
 static const GLushort g_Indices[] = { 0, 1, 2, 3 };
 
+int light = 2;
+
 int width = 1000;
 int height = 1000;
 
@@ -55,8 +57,9 @@ float posX = 0.0f;
 
 float posY = -0.5f;
 float posZ = -10.0f;
-float moveSpeed = 250.0f;
+float moveSpeed = 1000.0f;
 float rotSpeed = 0.08f;
+
 float rotX = 0.0f;
 float rotY = 0.0f;
 float distance = -10.0f;
@@ -191,14 +194,6 @@ bool loadOBJ(const char * path,std::vector < glm::vec3 > & out_vertices,std::vec
 
 }
 
-
-	//float[] vertices;
-	//uint16_t[] indices;
-			// For each vertex of each triangle
-		
-
-			// Read our .obj file
-	
 //--------------------------------------------------------------GEOMETRY SHADER--------------------------------------------------------
 
 const float step = 1.0f;
@@ -297,7 +292,7 @@ void menu_Selection(int option)
 		//Texture ON/OFF
 		break;
 	case 4:
-		//Light ON/OFF
+		light = 0;
 		break;
 	case 5:
 		exit(0);
@@ -332,16 +327,17 @@ void render_Menu(int option)
 }
 void light_Menu(int option)
 {
+	
 	switch (option)
 	{
 	case 1:
-		//Lambert
+		light = 1;
 		break;
 	case 2:
-		//Phong
+		light = 2;
 		break;
 	case 3:
-		//Blinn-Phong
+		light = 3;
 		break;
 	}
 }
@@ -385,7 +381,7 @@ bool Initialize()
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
-	bool res = loadOBJ("Bedside Table B.obj", vertices, uvs, normals);
+	bool res = loadOBJ("Captain America Shield 3D Model.obj", vertices, uvs, normals);
 
 
 	float* vertex1 = new float[vertices.size() * 8];
@@ -414,15 +410,15 @@ bool Initialize()
 	g_BasicShader.LoadVertexShader("basicLight.vs");
 	g_BasicShader.LoadFragmentShader("basicLight.fs");
 
-	/*g_BasicShader.LoadVertexShader("basic.vs");
-	g_BasicShader.LoadFragmentShader("basic.fs");*/
+	//g_BasicShader.LoadVertexShader("basic.vs");
+	//g_BasicShader.LoadFragmentShader("basic.fs");
 
 	g_BasicShader.CreateProgram();
 
 	glGenTextures(1, &TexObj);
 	glBindTexture(GL_TEXTURE_2D, TexObj);
 	int w, h, c; //largeur, hauteur et # de composantes du fichier
-	uint8_t* bitmapRGBA = stbi_load("Bedside_Table_B_default_1_1.png",
+	uint8_t* bitmapRGBA = stbi_load("Captain_America_Shield_3D_Model_MAP.png",
 		&w, &h, &c, STBI_rgb_alpha);
 
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -540,7 +536,8 @@ void animate()
 		break;
 	}
 	
-
+	auto lightMode = glGetUniformLocation(program, "u_lightMode");
+	glUniform1i(lightMode, light);
 	auto world_location = glGetUniformLocation(program, "u_WorldMatrix");
 	glUniformMatrix4fv(world_location, 1, GL_FALSE, worldMatrix.m);
 
@@ -566,9 +563,25 @@ void animate()
 
 	auto lightDir_location = glGetUniformLocation(program
 		, "u_PositionOrDirection");
-	float lightVector[4] = { 0.0, 1.0, 0.0, 0.0 };
+	float lightVector[4] = {0, -1,-4,0 };
 	glUniform4fv(lightDir_location, 1, lightVector);
 
+	float mAl[3] = {0.5882,0.5882,0.5882};
+	float mDl[3] = { 0.5882,0.5882,0.5882 };
+	float mSl[3] = {1,1,1};
+	float shininess = 1;
+
+	auto materialAmbiant_location = glGetUniformLocation(program, "u_materialAmbiantColor");
+	glUniform3fv(materialAmbiant_location, 1,  mAl);
+
+	auto materialDiffuse_location = glGetUniformLocation(program, "u_materialDiffuseColor");
+	glUniform3fv(materialDiffuse_location, 1, mDl);
+
+	auto materialSpecular_location = glGetUniformLocation(program, "u_materialSpecularColor");
+	glUniform3fv(materialSpecular_location, 1, mSl);
+
+	auto shininess_location = glGetUniformLocation(program, "u_Shininess");
+	glUniform1f(shininess_location, shininess);
 
 	// ATTRIBUTES
 	auto position_location = glGetAttribLocation(program, "a_Position");
