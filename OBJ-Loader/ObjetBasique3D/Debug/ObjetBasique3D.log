@@ -10,13 +10,13 @@ c:\users\vincent\obj-loader-esgi\obj-loader\common\mat4.h(218): warning C4244: '
 c:\users\vincent\obj-loader-esgi\obj-loader\common\mat4.h(219): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
 c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\math.h(1001): warning C4005: 'M_PI' : redéfinition de macro
   c:\users\vincent\obj-loader-esgi\obj-loader\common\mat4.h(15): note: voir la définition précédente de 'M_PI'
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(61): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(62): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(395): warning C4018: '<' : incompatibilité signed/unsigned
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(408): warning C4018: '<' : incompatibilité signed/unsigned
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(528): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(621): warning C4244: 'return' : conversion de 'double' en 'float', perte possible de données
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(625): warning C4244: 'return' : conversion de 'double' en 'float', perte possible de données
-c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(189): warning C4715: 'loadOBJ' : les chemins de contrôle ne retournent pas tous une valeur
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(64): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(65): warning C4244: 'initialisation' : conversion de 'float' en 'int', perte possible de données
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(394): warning C4018: '<' : incompatibilité signed/unsigned
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(407): warning C4018: '<' : incompatibilité signed/unsigned
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(548): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(641): warning C4244: 'return' : conversion de 'double' en 'float', perte possible de données
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(645): warning C4244: 'return' : conversion de 'double' en 'float', perte possible de données
+c:\users\vincent\obj-loader-esgi\obj-loader\objetbasique3d\cameras.cpp(192): warning C4715: 'loadOBJ' : les chemins de contrôle ne retournent pas tous une valeur
   ObjetBasique3D.vcxproj -> C:\Users\Vincent\OBJ-Loader-ESGI\OBJ-Loader\Debug\Cameras.exe
   ObjetBasique3D.vcxproj -> C:\Users\Vincent\OBJ-Loader-ESGI\OBJ-Loader\Debug\Cameras.pdb (Full PDB)

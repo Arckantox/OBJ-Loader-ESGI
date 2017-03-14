@@ -37,6 +37,9 @@ static const GLushort g_Indices[] = { 0, 1, 2, 3 };
 int width = 1000;
 int height = 1000;
 
+bool renderMode = true;		//True = Polygon, False = Wireframe
+bool backfaceMode = true;
+
 GLuint VBO;	// identifiant du Vertex Buffer Object
 GLuint IBO;	// identifiant du Index Buffer Object
 GLuint TexObj; // identifiant du Texture Object
@@ -288,6 +291,7 @@ void menu_Selection(int option)
 		break;
 	case 2:
 		//Backface ON/OFF
+		backfaceMode = !backfaceMode;
 		break;
 	case 3:
 		//Texture ON/OFF
@@ -318,9 +322,11 @@ void render_Menu(int option)
 	{
 	case 1:
 		//Polygon
+		renderMode = true;
 		break;
 	case 2:
 		//Wireframe
+		renderMode = false;
 		break;
 	}
 }
@@ -376,13 +382,6 @@ void InitMenu()
 
 bool Initialize()
 {
-
-	glEnable(GL_PROGRAM_POINT_SIZE);
-
-	//BackFace Culling
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
@@ -480,7 +479,28 @@ void update()
 
 void animate()
 {
+	//BackFace Culling
+
+	glEnable(GL_CULL_FACE);
+	if (backfaceMode)
+	{
+		glCullFace(GL_BACK);
+	}
+	else
+	{
+		glCullFace(GL_FRONT);
+	}
 	
+	
+
+	if (renderMode)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 	//Rendu filaire
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// afin d'obtenir le deltatime actuel

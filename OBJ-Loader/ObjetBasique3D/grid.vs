@@ -7,5 +7,4 @@ uniform mat4 u_CameraMatrix;
 void main(void)
 {
 	gl_Position = u_ProjectionMatrix * u_WorldMatrix * u_CameraMatrix * vec4(pos, 1.0);
-	gl_PointSize = 3.0;
 }
