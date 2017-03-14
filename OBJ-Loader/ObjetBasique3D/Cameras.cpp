@@ -49,9 +49,10 @@ int CamType = 0;
 
 //Camera variables
 float posX = 0.0f;
-float posY = -0.5f;
-float posZ = -10.0f;
-float moveSpeed = 50.0f;
+
+float posY = -4.7f;
+float posZ = -17.0f;
+float moveSpeed = 10050.0f;
 float rotSpeed = 0.08f;
 float rotX = 0.0f;
 float rotY = 0.0f;
@@ -264,12 +265,12 @@ bool Initialize()
 
 	//BackFace Culling
 	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
+	glCullFace(GL_BACK);
 
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals; // Won't be used at the moment.
-	bool res = loadOBJ("table.obj", vertices, uvs, normals);
+	bool res = loadOBJ("Bedside Table B.obj", vertices, uvs, normals);
 
 
 	float* vertex1 = new float[vertices.size() * 8];
@@ -295,18 +296,18 @@ bool Initialize()
 	
 
 	glewInit();
-	//g_BasicShader.LoadVertexShader("basicLight.vs");
-	//g_BasicShader.LoadFragmentShader("basicLight.fs");
+	g_BasicShader.LoadVertexShader("basicLight.vs");
+	g_BasicShader.LoadFragmentShader("basicLight.fs");
 
-	g_BasicShader.LoadVertexShader("basic.vs");
-	g_BasicShader.LoadFragmentShader("basic.fs");
+	/*g_BasicShader.LoadVertexShader("basic.vs");
+	g_BasicShader.LoadFragmentShader("basic.fs");*/
 
 	g_BasicShader.CreateProgram();
 
 	glGenTextures(1, &TexObj);
 	glBindTexture(GL_TEXTURE_2D, TexObj);
 	int w, h, c; //largeur, hauteur et # de composantes du fichier
-	uint8_t* bitmapRGBA = stbi_load("../data/dragon.png",
+	uint8_t* bitmapRGBA = stbi_load("Bedside_Table_B_default_1_1.png",
 		&w, &h, &c, STBI_rgb_alpha);
 
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -341,8 +342,8 @@ bool Initialize()
 	{
 	case 0:	//FPS
 		 posX = 0.0f;
-		 posY = -0.5f;
-		 posZ = -10.0f;
+		 posY = -14.7f;
+		 posZ = -217.0f;
 		break;
 	case 1:	//Orbit
 		posX = 0.0f;
@@ -444,8 +445,8 @@ void animate()
 
 
 	// ATTRIBUTES
-	auto normal_location = glGetAttribLocation(program, "a_Normal");
 	auto position_location = glGetAttribLocation(program, "a_Position");
+	auto normal_location = glGetAttribLocation(program, "a_Normal");
 	auto texcoords_location = glGetAttribLocation(program, "a_TexCoords");
 
 	glUseProgram(shaderProgram);		// GEOMETRY SHADER SPACE LOCATION REQUIERED VARIABLES
